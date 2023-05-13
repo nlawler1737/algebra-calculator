@@ -9,18 +9,16 @@
 </head>
 <body>
     <div id="container">
-        Enter Equation
-        <input type="text" id="equation">
+        <h1>Algebraic Calculator</h1>
+        <input type="text" id="equation" placeholder="Equation..." autocomplete="off">
         <small id="errorMessage">
-            &nbsp;
-            <!-- Invalid -->
+            
         </small>
-        <div id="result">RESULT</div>
-        <div id="solveForContainer">
-            Solve For
-            <button class="solveFor">X</button>
-            <button class="solveFor">Y</button>
-            <button class="solveFor">Z</button>
+        <div id="results">
+            <div class="result">
+                <div class="resultName">Result</div>
+                <div class="resultValue">waiting...</div>
+            </div>
         </div>
     </div>
 
