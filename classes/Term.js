@@ -114,13 +114,15 @@ class Term {
     }
 
     static isSimplifiedFraction(term1,term2) {
+        if (term2.number === 1) return false
         const isLike = Term.isLike(term1,term2)
         const simplifiedCoefficient = simplifyFraction(term1.number,term2.number)
         const isSimplifiedCoefficient = simplifiedCoefficient[0] === term1.number && simplifiedCoefficient[1] === term2.number
         const keys1 = Object.keys(term1.variables)
         const keys2 = Object.keys(term2.variables)
         const shareVariables = keys1.some(a=>keys2.includes(a))
-        return (simplifiedCoefficient[1] === 1 || simplifiedCoefficient) && !shareVariables
+        return isSimplifiedCoefficient && !shareVariables
+        // return (simplifiedCoefficient[1] === 1 || isSimplifiedCoefficient) && !shareVariables
     }
 
     static getResult(termArr) {

@@ -4,6 +4,8 @@ import Operation from "./Operation.js"
 import { checkBalancedBrackets } from "./Brackets.js"
 import { equationError } from "./utils.js"
 
+// console.log(new Expression([new Term(12),new Operation("/"),new Term(4)]))
+
 class Equation {
     #isEquation
     #equationString
@@ -20,6 +22,7 @@ class Equation {
     }
 
     solve() {
+        console.log(this.#equation)
         this.#equation.forEach(a=>a.simplify())
         if (this.#isEquation) return this.#solveAlgebra()
         if (!this.#isEquation) return this.#equation[0].simplified
@@ -37,6 +40,7 @@ class Equation {
 
     #checkInvalid() {
         checkBalancedBrackets(this.#equationString)
+        console.log(this.#equationString)
         if (this.#equationString.match("  ")) equationError("Too many spaces")
         if (this.#equationString.match(/=/g)?.length > 1) equationError("Too many '=' signs")
         if (this.#equationString.match(/\.\./)) equationError("Too many '.' in a row")
@@ -63,10 +67,13 @@ class Equation {
     #splitParts() {
         this.#parsed = this.#parsed.trim()
         const parts = []
+        const expressionQueue = []
+        const innerExpressionQueue = []
 
         const methods = [
             Term,
-            Operation
+            Operation,
+            Expression
         ]
 
         let counter = 0
@@ -75,7 +82,25 @@ class Equation {
             for (const i of methods) {
                 const match = i.match(this.#parsed)
                 if (match) {
-                    parts.push(match[0])
+                    if (match[0] === "expression") {
+                        if (match[2] === "(") expressionQueue.push(new Expression([]))
+                        else if (match[2] === ")") {
+                            let toReturn
+                            const expression = expressionQueue.pop()
+                            const expParts = expression.parts
+                            expParts.splice(0,0,...innerExpressionQueue.splice(0))
+                            expression.simplify()
+                            if (expression.parts.length === 1) toReturn = expression.parts[0]
+                            else toReturn = expression
+                            console.log(toReturn)
+                            if (expressionQueue.length) innerExpressionQueue.push(toReturn)
+                            else parts.push(toReturn)
+                        }
+                    } else if (expressionQueue.length) {
+                        innerExpressionQueue.push(match[0])
+                    } else {
+                        parts.push(match[0])
+                    }
                     this.#parsed = match[1].trim()
                     foundMatch = true
                     break

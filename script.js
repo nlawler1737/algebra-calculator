@@ -6,7 +6,8 @@ const equationInput = document.querySelector("#equation")
 equationInput.addEventListener("input",onInput)
 equationInput.value = "147/3"
 // equationInput.value = "12x+4x"
-// equationInput.value = "12x+4x+6x-2y"
+// equationInput.value = "12x+4x+6x-2y-1y"
+// equationInput.value = "4x=12"
 // equationInput.value = "12x+3y-45z=34x"
 // equationInput.value = "2w-10x+20y*3=17x-2z-46w/2"
 onInput({target:equationInput})
@@ -21,7 +22,7 @@ function onInput(e) {
                 name: "Result",
                 value: eq || "waiting..."
             }
-        ])  
+        ])
     }   
 }
 
@@ -51,4 +52,3 @@ function displayResults(results) {
         resultsDiv.append(resultDiv)
     }
 }
-

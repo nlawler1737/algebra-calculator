@@ -5,6 +5,11 @@ class Expression {
     #parts = []
     #simplified
 
+    static #matches = {
+        parenthesis: /[()]/
+    }
+
+
     constructor(partArr,isMain=false) {
         this.isSimplified = false
         this.isMain = isMain
@@ -41,6 +46,10 @@ class Expression {
 
     get simplified() {
         return this.#simplified
+    }
+
+    static get matches() {
+        return this.#matches
     }
 
     append(term) {
@@ -117,6 +126,17 @@ class Expression {
             }
         }
         return terms
+    }
+
+    static match(equation) {
+
+        for (let i in this.matches) {
+            const match = equation.match(this.matches[i])
+            if (match) {
+                return ['expression',equation.replace(match[0],""),match[0]]
+            }
+        }
+        return false
     }
 
 }
