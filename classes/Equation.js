@@ -22,7 +22,6 @@ class Equation {
     }
 
     solve() {
-        console.log(this.#equation)
         this.#equation.forEach(a=>a.simplify())
         if (this.#isEquation) return this.#solveAlgebra()
         if (!this.#isEquation) return this.#equation[0].simplified
@@ -40,7 +39,6 @@ class Equation {
 
     #checkInvalid() {
         checkBalancedBrackets(this.#equationString)
-        console.log(this.#equationString)
         if (this.#equationString.match("  ")) equationError("Too many spaces")
         if (this.#equationString.match(/=/g)?.length > 1) equationError("Too many '=' signs")
         if (this.#equationString.match(/\.\./)) equationError("Too many '.' in a row")
@@ -92,7 +90,6 @@ class Equation {
                             expression.simplify()
                             if (expression.parts.length === 1) toReturn = expression.parts[0]
                             else toReturn = expression
-                            console.log(toReturn)
                             if (expressionQueue.length) innerExpressionQueue.push(toReturn)
                             else parts.push(toReturn)
                         }
